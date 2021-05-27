@@ -1,14 +1,12 @@
-import movies from './moviesDB.json'
+import {useState} from 'react';
 
 //function MoviesTable() {  // either like this
-const MoviesTable = ({updateMovieMain}) => { //or like this
+const MoviesTable = ({movies, onDelete, onUpdate}) => { //or like this
+    const [name, setName] = useState('');
+    const [year, setYear] = useState('');
 
-    const deleteMovie = () => {
-        console.log('delete movie');
-    }
-
-    const updateMovie = () => {
-        updateMovieMain();
+    const update = (id) => {
+        onUpdate({id, name, year});
     }
 
     return (
@@ -20,12 +18,11 @@ const MoviesTable = ({updateMovieMain}) => { //or like this
             </tr>
             {movies.map((movie) => (
                 <tr>
-                    <td id={movie.id}>{movie.name}</td>
-                    <td id={movie.id}>{movie.year}</td>
-                    <td id={movie.id}>{movie.rating}</td>
-                    <td id={movie.id}>
-                        <input type='button' value='Delete' onClick={deleteMovie}/>
-                        <input type='button' value='Update' onClick={updateMovie}/>
+                    <td><input type='text' value={movie.name} onChange={(e)=> {setName(e.target.value)}}/></td>
+                    <td><input type='text' value={movie.year} onChange={(e)=> {setYear(e.target.value)}}/></td>
+                    <td>
+                        <input type='button' value='Delete' onClick={() => {onDelete(movie.id)}}/>
+                        <input type='button' value='Update' onClick={() => {update(movie.id)}}/>
                     </td>
                 </tr>
             ))
